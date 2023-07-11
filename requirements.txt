@@ -1,6 +1,6 @@
 streamlit==1.24.1
 protobuf==3.20.*
 tensorflow
-openxyl
+pandas
 seaborn
 scikit-learn
