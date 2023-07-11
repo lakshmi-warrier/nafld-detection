@@ -7,7 +7,7 @@ from tensorflow.keras.models import load_model
 model = load_model('model.h5')
 
 def show_page():
-    st.title('Predict')
+    st.title('Predicting if you have NAFLD from test reports')
     # model.summary(print_fn=lambda x: st.text(x))
 
     # get the input from the user
@@ -43,3 +43,53 @@ def get_op(readings):
     if cls == 0:
         s = "do not"
     return(f"Result: There is a {per*100}% probability that you {s} suffer from NAFLD")
+
+def get_inp_out():
+    
+    st.title("Data Input Form")
+    
+    # Create empty dataframe
+    data = pd.DataFrame(columns=['Waist', 'GHP', 'BMI', 'C1P', 'FGLU', 'Ins', 'Trig', 'ALT'])
+    
+    # Create input fields for each header
+    for header in data.columns:
+        value = st.number_input(header, step=1.0)
+        data[header] = [value]
+    
+    # Display input data in a table
+    st.subheader("Input Data")
+    st.dataframe(data)
+
+    if st.button("Check NAFLD"):
+        st.write(get_op(data.values[0]))
+
+
+def trial_inp_op():
+    st.title("NAFLD detection")
+    st.write("Enter your test report readings below:")
+    
+    # Create empty dataframe
+    data = pd.DataFrame(columns=['Waist', 'GHP', 'BMI', 'C1P', 'FGLU', 'Ins', 'Trig', 'ALT'])
+    
+    # Create input fields for each header arranged in rows
+    num_columns = 3  # Number of columns per row
+    with st.form("input_form"):
+        col_count = 0
+        for header in data.columns:
+            if col_count % num_columns == 0:
+                col = st.columns(num_columns)
+            col[col_count % num_columns].number_input(header, key=header, value=0.0, step=0.1, format="%.1f")
+            col_count += 1
+        
+        submitted = st.form_submit_button("Submit")
+    
+    # Display input data in a table if submitted
+    if submitted:
+        # Update the data with the submitted values
+        for header in data.columns:
+            value = st.session_state[header]
+            data[header] = [value]
+        
+        st.write(get_op(data.values[0]))
+
+

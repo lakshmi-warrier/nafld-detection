@@ -1,5 +1,7 @@
 import streamlit as st
 
-from predict_page import show_page
+from predict_page import show_page, get_inp_out, trial_inp_op
+# show_page()
+# get_inp_out()
 
-show_page()
+trial_inp_op()
