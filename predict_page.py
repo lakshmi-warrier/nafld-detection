@@ -1,5 +1,7 @@
 import streamlit as st
 import numpy as np
+import pandas as pd
+
 # read from model.h5
 from tensorflow.keras.models import load_model
 model = load_model('model.h5')
@@ -16,12 +18,20 @@ def show_page():
 
 
 def get_op(readings):
-    st.write(readings)
+    st.write("Your readings from test report: ")
+
+    headers = ['Waist', 'GHP', 'BMI', 'C1P', 'FGLU', 'Ins', 'Trig', 'ALT']
+
+    df = pd.DataFrame([readings], columns=headers)
+    df.set_index('Waist', inplace=True)
+
+    # Display the DataFrame as a table using Streamlit
+    st.dataframe(df)
+
     readings = np.array(readings)
     readings = readings.reshape(1,8)
     output = model.predict(readings)
     print(output)
-    st.write(output)
 
     # st.write(np.argmax(output))
     # st.write(np.max(output))
@@ -32,4 +42,4 @@ def get_op(readings):
     s = ""
     if cls == 0:
         s = "do not"
-    return(f"There is a {per*100}% probability that you {s} suffer from NAFLD")
+    return(f"Result: There is a {per*100}% probability that you {s} suffer from NAFLD")
