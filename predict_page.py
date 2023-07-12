@@ -44,24 +44,24 @@ def get_op(readings):
         s = "do not"
     return(f"Result: There is a {per*100}% probability that you {s} suffer from NAFLD")
 
-def get_inp_out():
+# def get_inp_out():
     
-    st.title("Data Input Form")
+#     st.title("Data Input Form")
     
-    # Create empty dataframe
-    data = pd.DataFrame(columns=['Waist', 'GHP', 'BMI', 'C1P', 'FGLU', 'Ins', 'Trig', 'ALT'])
+#     # Create empty dataframe
+#     data = pd.DataFrame(columns=['Waist', 'GHP', 'BMI', 'C1P', 'FGLU', 'Ins', 'Trig', 'ALT'])
     
-    # Create input fields for each header
-    for header in data.columns:
-        value = st.number_input(header, step=1.0)
-        data[header] = [value]
+#     # Create input fields for each header
+#     for header in data.columns:
+#         value = st.number_input(header, step=1.0)
+#         data[header] = [value]
     
-    # Display input data in a table
-    st.subheader("Input Data")
-    st.dataframe(data)
+#     # Display input data in a table
+#     st.subheader("Input Data")
+#     st.dataframe(data)
 
-    if st.button("Check NAFLD"):
-        st.write(get_op(data.values[0]))
+#     if st.button("Check NAFLD"):
+#         st.write(get_op(data.values[0]))
 
 
 def trial_inp_op():
@@ -69,7 +69,7 @@ def trial_inp_op():
     st.write("Enter your test report readings below:")
     
     # Create empty dataframe
-    data = pd.DataFrame(columns=['Waist', 'GHP', 'BMI', 'C1P', 'FGLU', 'Ins', 'Trig', 'ALT'])
+    data = pd.DataFrame(columns=['Waist Circumference(cm)', 'GHP', 'BMI', 'C1P', 'FGLU', 'Ins', 'Trig', 'ALT'])
     
     # Create input fields for each header arranged in rows
     num_columns = 3  # Number of columns per row
@@ -78,7 +78,7 @@ def trial_inp_op():
         for header in data.columns:
             if col_count % num_columns == 0:
                 col = st.columns(num_columns)
-            col[col_count % num_columns].number_input(header, key=header, value=0.0, step=0.1, format="%.1f")
+            col[col_count % num_columns].number_input(header, key=header, value=0.0, step=1.0, format="%.1f")
             col_count += 1
         
         submitted = st.form_submit_button("Submit")
@@ -91,5 +91,25 @@ def trial_inp_op():
             data[header] = [value]
         
         st.write(get_op(data.values[0]))
+        st.divider()
+        
+        st.header("Fatty Liver Index:")
+
+        get_fli(data.values[0])
+
+def get_fli(readings):
+    waist, ghp, bmi, c1p, fglu, ins, trig, alt = readings
+    fli = (np.exp(0.953*np.log(trig) + 0.139*bmi + 0.718*np.log(ghp) + 0.053*waist - 15.745))/(1+np.exp(0.953*np.log(trig) + 0.139*bmi + 0.718*np.log(ghp) + 0.053*waist - 15.745))*100
+    st.write(display_fli(fli))
 
 
+def display_fli(fli):
+    st.write("Your Fatty Liver Index (FLI) is ", str(fli))
+
+    if fli >= 60:
+        return "You have a fatty liver"
+    if fli < 30:
+        return "You do not have a fatty liver"
+    elif fli < 45:
+        return "You might not have a fatty liver"
+    return "You might have a fatty liver"
