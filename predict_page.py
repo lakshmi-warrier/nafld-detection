@@ -6,18 +6,6 @@ import pandas as pd
 from tensorflow.keras.models import load_model
 model = load_model('model.h5')
 
-
-def show_page():
-    st.title('Predicting if you have NAFLD from test reports')
-    # model.summary(print_fn=lambda x: st.text(x))
-
-    # get the input from the user
-    st.write(predict_nafld([108.5, 5, 37, 0.878, 84.9, 7.89, 171, 14]))
-
-    st.write("user2")
-    st.write(predict_nafld([64.2, 9.9, 17.9, 0.021, 142.6, 17.41, 76, 9]))
-
-
 def predict_nafld(readings, headers):
     readings = readings[:8]
     headers = headers[:8]
@@ -43,7 +31,7 @@ def predict_nafld(readings, headers):
     return (f"Result: There is a {per*100}% probability that you {s} suffer from NAFLD")
 
 
-def show_pg():
+def main():
     st.title("NAFLD detection")
     st.write("Enter your test report readings below:")
     headers = ['Waist', 'GHP', 'BMI', 'C1P',
@@ -77,8 +65,6 @@ def show_pg():
         readings = [108.5, 5, 37, 0.878, 84.9, 7.89, 171, 14, 20]
         st.write(predict_nafld(readings, headers))
         st.divider()
-
-        st.header("Fatty Liver Index:")
 
         fli = get_fli(readings)
         child_score = get_child_score(readings)

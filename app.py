@@ -1,8 +1,14 @@
 import streamlit as st
+import predict_page 
+import info 
+import  main 
 
-from predict_page import show_pg
-
-st.set_page_config(page_title="NAFLD Prediction",
-                   page_icon=":bar_chart:", layout="wide")
-
-show_pg()
+PAGES={
+    "About":  main,
+    "Information": info,
+    "Prediction": predict_page
+}
+st.sidebar.title("Navigation")
+selection=st.sidebar.radio("Go to", list(PAGES.keys()))
+page=PAGES[selection]
+page.main()
