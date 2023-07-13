@@ -23,12 +23,13 @@ def predict_nafld(readings, headers):
     print(output)
 
     cls = np.argmax(output)
-    per = np.max(output)
+    per = float(np.max(output))*100
+    per=round(per,2)
 
     s = ""
     if cls == 0:
         s = "do not"
-    return (f"Result: There is a {per*100}% probability that you {s} suffer from NAFLD")
+    return (f"Result: There is a {per}% probability that you {s} suffer from NAFLD")
 
 
 def main():
@@ -57,12 +58,12 @@ def main():
     if submitted:
         # Update the data with the submitted values
 
-        # for header in data.columns:
-        #     value = st.session_state[header]
-        #     data[header] = [value]
-        # readings = data.values[0]
+        for header in data.columns:
+            value = st.session_state[header]
+            data[header] = [value]
+        readings = data.values[0]
 
-        readings = [108.5, 5, 37, 0.878, 84.9, 7.89, 171, 14, 20]
+        # readings = [108.5, 5, 37, 0.878, 84.9, 7.89, 171, 14, 20]
         st.write(predict_nafld(readings, headers))
         st.divider()
 
@@ -72,9 +73,9 @@ def main():
         # Display metrics using st.metric component
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.metric("FLI", fli, check_FL_from_FLI(fli))
+            st.metric("FLI", fli)
+            check_FL_from_FLI(fli)
         with col2:
-            # st.markdown(f'<p style="color:{"blue"};">{"Child-Pugh score"}</p>', unsafe_allow_html=True)
             st.metric("Child-Pugh score", child_score)
             check_FL_from_child_score(child_score)
 
@@ -94,12 +95,13 @@ def get_fli(readings):
 def check_FL_from_FLI(fli):
 
     if fli >= 60:
-        return "You have a fatty liver"
-    if fli < 30:
-        return "You do not have a fatty liver"
+        st.markdown(f'<p style="color:{"red"};">{"You have a fatty liver"}</p>', unsafe_allow_html=True)
+    elif fli < 30:
+        st.markdown(f'<p style="color:#80ff00;">{"You do not have a fatty liver"}</p>', unsafe_allow_html=True)
     elif fli < 45:
-        return "You might not have a fatty liver"
-    return "You might have a fatty liver"
+        st.markdown(f'<p style="color:{"pink"};">{"You might not have a fatty liver"}</p>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<p style="color:{"yellow"};">{"You might have a fatty liver"}</p>', unsafe_allow_html=True)
 
 
 def get_child_score(readings):
@@ -107,15 +109,16 @@ def get_child_score(readings):
     child_score = 4.2 * np.log(alt) + 0.94 * np.log(bmi) + 1.7 * np.log(
         fglu) + 0.94 * np.log(trig) + 0.94 * np.log(ghp) - 0.013 * age - 13.436
     child_score=round(child_score,2)
+    child_score=6.14
     return child_score
 
 
 def check_FL_from_child_score(child_score):
     if child_score >= 7:
-        st.markdown(f'<p style="color:{"blue"};">{"You have a fatty liver"}</p>', unsafe_allow_html=True)
+        st.markdown(f'<p style="color:{"red"};">{"You have a fatty liver"}</p>', unsafe_allow_html=True)
     elif child_score < 5:
-        st.markdown(f'<p style="color:{"blue"};">{"- You do not have a fatty liver"}</p>', unsafe_allow_html=True)
+        st.markdown(f'<p style="color:{"green"};">{"You do not have a fatty liver"}</p>', unsafe_allow_html=True)
     elif child_score < 6:
-        st.markdown(f'<p style="color:{"blue"};">{"-You might not have a fatty liver"}</p>', unsafe_allow_html=True)
+        st.markdown(f'<p style="color:{"pink"};">{"You might not have a fatty liver"}</p>', unsafe_allow_html=True)
     else:
-        st.markdown(f'<p style="color:{"blue"};">{"-You might have a fatty liver"}</p>', unsafe_allow_html=True)
+        st.markdown(f'<p style="color:#ffee00;">{"You might have a fatty liver"}</p>', unsafe_allow_html=True)
