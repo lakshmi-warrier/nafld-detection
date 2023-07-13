@@ -101,6 +101,7 @@ def get_fli(readings):
     fli = (np.exp(0.953*np.log(trig) + 0.139*bmi + 0.718*np.log(ghp) + 0.053*waist - 15.745)) / \
         (1+np.exp(0.953*np.log(trig) + 0.139*bmi +
          0.718*np.log(ghp) + 0.053*waist - 15.745))*100
+    fli=round(fli,2)
     return fli
 
 
@@ -119,14 +120,15 @@ def get_child_score(readings):
     waist, ghp, bmi, c1p, fglu, ins, trig, alt, age = readings
     child_score = 4.2 * np.log(alt) + 0.94 * np.log(bmi) + 1.7 * np.log(
         fglu) + 0.94 * np.log(trig) + 0.94 * np.log(ghp) - 0.013 * age - 13.436
+    child_score=round(child_score,2)
     return child_score
 
 
 def check_FL_from_child_score(child_score):
     if child_score >= 7:
-        return "You have a fatty liver"
+        return "- You have a fatty liver"
     if child_score < 5:
-        return "You do not have a fatty liver"
+        return "- You do not have a fatty liver"
     elif child_score < 6:
-        return "You might not have a fatty liver"
-    return "You might have a fatty liver"
+        return "-You might not have a fatty liver"
+    return "-You might have a fatty liver"
