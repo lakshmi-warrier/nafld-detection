@@ -74,13 +74,13 @@ def main():
         with col1:
             st.metric("FLI", fli, check_FL_from_FLI(fli))
         with col2:
-            st.metric("Child-Pugh score", child_score,
-                      check_FL_from_child_score(child_score))
+            # st.markdown(f'<p style="color:{"blue"};">{"Child-Pugh score"}</p>', unsafe_allow_html=True)
+            st.metric("Child-Pugh score", child_score)
+            check_FL_from_child_score(child_score)
 
         with col3:
-            st.metric("Child-Pugh score", child_score,
-                      check_FL_from_child_score(child_score))
-
+            st.metric("Child-Pugh score", child_score)
+            check_FL_from_child_score(child_score)
 
 def get_fli(readings):
     waist, ghp, bmi, c1p, fglu, ins, trig, alt, age = readings
@@ -112,9 +112,10 @@ def get_child_score(readings):
 
 def check_FL_from_child_score(child_score):
     if child_score >= 7:
-        return "- You have a fatty liver"
-    if child_score < 5:
-        return "- You do not have a fatty liver"
+        st.markdown(f'<p style="color:{"blue"};">{"You have a fatty liver"}</p>', unsafe_allow_html=True)
+    elif child_score < 5:
+        st.markdown(f'<p style="color:{"blue"};">{"- You do not have a fatty liver"}</p>', unsafe_allow_html=True)
     elif child_score < 6:
-        return "-You might not have a fatty liver"
-    return "-You might have a fatty liver"
+        st.markdown(f'<p style="color:{"blue"};">{"-You might not have a fatty liver"}</p>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<p style="color:{"blue"};">{"-You might have a fatty liver"}</p>', unsafe_allow_html=True)
