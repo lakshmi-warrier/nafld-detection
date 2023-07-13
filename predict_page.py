@@ -49,7 +49,7 @@ def main():
             if col_count % num_columns == 0:
                 col = st.columns(num_columns)
             col[col_count % num_columns].number_input(
-                header, key=header, value=0.0, step=1.0, format="%.1f")
+                header, key=header, value=0.0, step=1.0, format="%.1f",min_value=0.0)
             col_count += 1
 
         submitted = st.form_submit_button("Submit")
