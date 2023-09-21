@@ -22,14 +22,15 @@ def predict_nafld(readings, headers):
     output = model.predict(readings)
     print(output)
 
-    cls = np.argmax(output)
+    # cls = np.argmax(output)
     per = float(np.max(output))*100
     per=round(per,2)
 
     s = ""
-    if cls == 0:
-        s = "do not"
-    return (f"Result: There is a {per}% probability that you {s} suffer from NAFLD")
+    print(output,"sgyka")
+    if output == 0:
+        s = "not"
+    return (f"Result: You might {s} suffer from NAFLD")
 
 
 def main():
@@ -79,15 +80,16 @@ def main():
             st.metric("Child-Pugh score", child_score)
             check_FL_from_child_score(child_score)
 
-        with col3:
-            st.metric("Child-Pugh score", child_score)
-            check_FL_from_child_score(child_score)
+        # with col3:
+        #     st.metric("Child-Pugh score", child_score)
+        #     check_FL_from_child_score(child_score)
 
 def get_fli(readings):
     waist, ghp, bmi, c1p, fglu, ins, trig, alt, age = readings
     fli = (np.exp(0.953*np.log(trig) + 0.139*bmi + 0.718*np.log(ghp) + 0.053*waist - 15.745)) / \
-        (1+np.exp(0.953*np.log(trig) + 0.139*bmi +
-         0.718*np.log(ghp) + 0.053*waist - 15.745))*100
+        (1+np.exp(0.953*np.log(trig) + 0.139*bmi +0.718*np.log(ghp) + 0.053*waist - 15.745))*100
+    # print(readings)
+    # print(fli)
     fli=round(fli,2)
     return fli
 
@@ -109,7 +111,7 @@ def get_child_score(readings):
     child_score = 4.2 * np.log(alt) + 0.94 * np.log(bmi) + 1.7 * np.log(
         fglu) + 0.94 * np.log(trig) + 0.94 * np.log(ghp) - 0.013 * age - 13.436
     child_score=round(child_score,2)
-    child_score=6.14
+    # child_score=6.14
     return child_score
 
 
