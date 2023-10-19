@@ -27,7 +27,6 @@ def predict_nafld(readings, headers):
     per=round(per,2)
 
     s = ""
-    print(output,"sgyka")
     if output == 0:
         s = "not"
     return (f"Result: You might {s} suffer from NAFLD")
