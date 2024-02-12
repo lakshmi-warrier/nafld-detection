@@ -2,9 +2,9 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 
-# read from model.h5
-from tensorflow.keras.models import load_model
-model = load_model('model.h5')
+# # read from model.h5
+# from tensorflow.keras.models import load_model
+# model = load_model('model.h5')
 
 def predict_nafld(readings, headers):
     readings = readings[:8]
@@ -19,8 +19,10 @@ def predict_nafld(readings, headers):
 
     readings = np.array(readings)
     readings = readings.reshape(1, 8)
-    output = model.predict(readings)
-    print(output)
+    # output = model.predict(readings)
+    # print(output)
+
+    output = 1
 
     # cls = np.argmax(output)
     per = float(np.max(output))*100
@@ -49,7 +51,7 @@ def main():
             if col_count % num_columns == 0:
                 col = st.columns(num_columns)
             col[col_count % num_columns].number_input(
-                header, key=header, value=0.0, step=1.0, format="%.1f",min_value=0.0)
+                header, key=header, value=0.0, step=1.0, format="%.2f",min_value=0.0)
             col_count += 1
 
         submitted = st.form_submit_button("Submit")
