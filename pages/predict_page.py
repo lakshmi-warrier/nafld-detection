@@ -2,9 +2,10 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 
-# # read from model.h5
-# from tensorflow.keras.models import load_model
-# model = load_model('model.h5')
+# read from model.h5
+from tensorflow.keras.models import load_model
+model = load_model('models\\blood_result_model.h5')
+
 
 def predict_nafld(readings, headers):
     readings = readings[:8]
@@ -19,14 +20,14 @@ def predict_nafld(readings, headers):
 
     readings = np.array(readings)
     readings = readings.reshape(1, 8)
-    # output = model.predict(readings)
-    # print(output)
+    output = model.predict(readings)
+    print(output)
 
     output = 1
 
     # cls = np.argmax(output)
     per = float(np.max(output))*100
-    per=round(per,2)
+    per = round(per, 2)
 
     s = ""
     if output == 0:
@@ -51,7 +52,7 @@ def main():
             if col_count % num_columns == 0:
                 col = st.columns(num_columns)
             col[col_count % num_columns].number_input(
-                header, key=header, value=0.0, step=1.0, format="%.2f",min_value=0.0)
+                header, key=header, value=0.0, step=1.0, format="%.2f", min_value=0.0)
             col_count += 1
 
         submitted = st.form_submit_button("Submit")
@@ -85,43 +86,53 @@ def main():
         #     st.metric("Child-Pugh score", child_score)
         #     check_FL_from_child_score(child_score)
 
+
 def get_fli(readings):
     waist, ghp, bmi, c1p, fglu, ins, trig, alt, age = readings
     fli = (np.exp(0.953*np.log(trig) + 0.139*bmi + 0.718*np.log(ghp) + 0.053*waist - 15.745)) / \
-        (1+np.exp(0.953*np.log(trig) + 0.139*bmi +0.718*np.log(ghp) + 0.053*waist - 15.745))*100
+        (1+np.exp(0.953*np.log(trig) + 0.139*bmi +
+         0.718*np.log(ghp) + 0.053*waist - 15.745))*100
     # print(readings)
     # print(fli)
-    fli=round(fli,2)
+    fli = round(fli, 2)
     return fli
 
 
 def check_FL_from_FLI(fli):
 
     if fli >= 60:
-        st.markdown(f'<p style="color:{"red"};">{"You have a fatty liver"}</p>', unsafe_allow_html=True)
+        st.markdown(
+            f'<p style="color:{"red"};">{"You have a fatty liver"}</p>', unsafe_allow_html=True)
     elif fli < 30:
-        st.markdown(f'<p style="color:#80ff00;">{"You do not have a fatty liver"}</p>', unsafe_allow_html=True)
+        st.markdown(
+            f'<p style="color:#80ff00;">{"You do not have a fatty liver"}</p>', unsafe_allow_html=True)
     elif fli < 45:
-        st.markdown(f'<p style="color:{"pink"};">{"You might not have a fatty liver"}</p>', unsafe_allow_html=True)
+        st.markdown(
+            f'<p style="color:{"pink"};">{"You might not have a fatty liver"}</p>', unsafe_allow_html=True)
     else:
-        st.markdown(f'<p style="color:{"yellow"};">{"You might have a fatty liver"}</p>', unsafe_allow_html=True)
+        st.markdown(
+            f'<p style="color:{"yellow"};">{"You might have a fatty liver"}</p>', unsafe_allow_html=True)
 
 
 def get_child_score(readings):
     waist, ghp, bmi, c1p, fglu, ins, trig, alt, age = readings
     child_score = 4.2 * np.log(alt) + 0.94 * np.log(bmi) + 1.7 * np.log(
         fglu) + 0.94 * np.log(trig) + 0.94 * np.log(ghp) - 0.013 * age - 13.436
-    child_score=round(child_score,2)
+    child_score = round(child_score, 2)
     # child_score=6.14
     return child_score
 
 
 def check_FL_from_child_score(child_score):
     if child_score >= 7:
-        st.markdown(f'<p style="color:{"red"};">{"You have a fatty liver"}</p>', unsafe_allow_html=True)
+        st.markdown(
+            f'<p style="color:{"red"};">{"You have a fatty liver"}</p>', unsafe_allow_html=True)
     elif child_score < 5:
-        st.markdown(f'<p style="color:{"green"};">{"You do not have a fatty liver"}</p>', unsafe_allow_html=True)
+        st.markdown(
+            f'<p style="color:{"green"};">{"You do not have a fatty liver"}</p>', unsafe_allow_html=True)
     elif child_score < 6:
-        st.markdown(f'<p style="color:{"pink"};">{"You might not have a fatty liver"}</p>', unsafe_allow_html=True)
+        st.markdown(
+            f'<p style="color:{"pink"};">{"You might not have a fatty liver"}</p>', unsafe_allow_html=True)
     else:
-        st.markdown(f'<p style="color:#ffee00;">{"You might have a fatty liver"}</p>', unsafe_allow_html=True)
+        st.markdown(
+            f'<p style="color:#ffee00;">{"You might have a fatty liver"}</p>', unsafe_allow_html=True)
