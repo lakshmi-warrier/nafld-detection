@@ -1,4 +1,6 @@
 # model.h5
-__pycache__/
-pages/__pycache__/
+__pycache__
+pages/__pycache__
 
+us_scan_model/enh/
+us_scan_model/og
