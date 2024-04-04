@@ -5,3 +5,4 @@ pages/__pycache__
 us_scan_model/enh/
 us_scan_model/og
 us_scan_model/roi
+*.pkl
