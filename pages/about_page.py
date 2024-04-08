@@ -2,5 +2,27 @@ import streamlit as st
 
 
 def main():
-    st.title("NAFLD detection")
-    st.write("Non-alcoholic fatty liver disease (NAFLD) represents a serious liver pathology, which requires high health care costs, causes economic losses and reduces health-related quality of life. The main feature of NAFLD is hepatic steatosis, which is currently defined in the NAFLD management’s guidelines as steatosis with ≥5% liver fat detected by imaging techniques or histology in patients with no other chronic liver disease consuming little to no alcohol. NAFLD is a general term utilized for a wide range of clinicopathological findings. Histologically, NAFLD is a disease continuum including steatosis accompanied by mild inflammation or not (non-alcoholic fatty liver, NAFL) and NASH, which in addition features hepatocellular damage (hepatocyte ballooning). With the rising prevalence rates of metabolic disorders, including diabetes, obesity, dyslipidemia and metabolic syndrome, NAFLD incidence is growing year by year, which further increases the odds of cardiovascular disease and death. Meanwhile, NAFLD also increases the odds of liver cancer, and is considered the primary cause of liver cancer in the Western world. Therefore, the early detection, diagnosis and treatment of NAFLD has become urgent. The present review describes current findings about the pathogenesis of NAFLD and highlights progress in its diagnosis and treatment, which may help improve the outcomes of NAFLD cases.")
+    # Title
+    st.title("Welcome to NAFLD Predictor")
+
+    # Introduction
+    st.markdown("""
+                *Non-Alcoholic Fatty Liver Disease (NAFLD)* is a prevalent condition characterized by excessive fat accumulation in the liver of individuals who consume little to no alcohol.
+                It encompasses a spectrum of liver abnormalities, ranging from simple steatosis (fatty liver) to non-alcoholic steatohepatitis (NASH), cirrhosis, and ultimately, hepatocellular carcinoma.
+                NAFLD is closely associated with obesity, insulin resistance, type 2 diabetes, dyslipidemia, and metabolic syndrome.
+                Despite its increasing prevalence and potential to progress to severe liver disease, NAFLD often remains asymptomatic in its early stages, making early detection and intervention critical for preventing disease progression and complications.
+                """)
+    
+    # Table showing the developers of the application
+    st.write("**Team Members:**")
+    developers = [
+        {"Name": "Lakshmi Warrier", "Roll Number": "AM.EN.U4AIE20143"},
+        {"Name": "M Devika", "Roll Number": "AM.EN.U4AIE20144"},
+        {"Name": "Perumalla Raghavendra", "Roll Number": "AM.EN.U4AIE20156"},
+        {"Name": "Dr. Remya S", "Roll Number": "Project Guide"}
+    ]
+    st.table(developers)
+
+    # Link to the acceptance of the paper in Streamlit
+    st.write("**Acceptance of the Paper:**")
+    st.image("images/acceptance_icssit.PNG", caption="Acceptance Certificate", use_column_width=True)

@@ -10,7 +10,6 @@ PCA_PATH = r"models\pca_preprocessor.pkl"
 loaded_model = joblib.load(MODEL_PATH)
 
 
-
 def preprocess_img(image_data, l_pca=joblib.load(PCA_PATH)):
     image_bytes = image_data.read()
     image_array = np.frombuffer(image_bytes, dtype=np.uint8)
