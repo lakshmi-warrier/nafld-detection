@@ -25,7 +25,6 @@ def preprocess_img(image_data, l_pca=joblib.load(PCA_PATH)):
 
 
 def predict(image):
-    # Placeholder function to simulate prediction
     new_features_pca = preprocess_img(image)
     prediction = loaded_model.predict(new_features_pca)
     return prediction
