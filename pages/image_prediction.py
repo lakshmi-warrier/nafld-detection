@@ -41,7 +41,7 @@ def main():
 
     if uploaded_file is not None:
         # Display uploaded image
-        st.image(uploaded_file, caption="Uploaded Image", use_column_width=False)
+        st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
 
         if st.button("Predict"):
             prediction = predict(uploaded_file)
