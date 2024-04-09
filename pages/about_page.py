@@ -23,6 +23,6 @@ def main():
     ]
     st.table(developers)
 
-    # Link to the acceptance of the paper in Streamlit
-    st.write("**Acceptance of the Paper:**")
+    # Link to the acceptance of the paper 
+    st.write("**Acceptance of Conference Paper:**")
     st.image("images/acceptance_icssit.PNG", caption="Acceptance Certificate", use_column_width=True)
