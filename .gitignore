@@ -6,3 +6,9 @@ us_scan_model/enh/
 us_scan_model/og
 us_scan_model/roi
 us_scan_model/*.pkl
+
+models/vgg16/lr_0_003.keras
+
+
+cuda/
+.venv/
